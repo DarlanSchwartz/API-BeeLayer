@@ -15,5 +15,15 @@ export class CardRepository {
         return result;
     }
 
+    async findUserCardByHash(userId: number, hash: string) {
+        const result = await prisma.user_cards.findFirst({
+            where: {
+                userId: userId,
+                hash: hash
+            }
+        });
+
+        return result;
+    }
 
 }

@@ -13,7 +13,7 @@ async function registerCard(data: CardDTO, userId: number) {
     return result;
 };
 
-async function checkCard(data: CardCheckDTO) {
+async function checkCard(data: CardCheckDTO, userId: number) {
     const user = await RepositoryUsers.getUserByCPF(data.userCPF);
 
     const invalidCardResponse = { ...data, isValid: false };
@@ -21,13 +21,15 @@ async function checkCard(data: CardCheckDTO) {
         return invalidCardResponse;
     }
 
-    // tranformar data em hash
-
+    // tranformar data em hash (Daniel)
+    const hash = "generate Hash"
     // procurar no banco um cartão desse usuario que sejam igual o hash
-
+    const card = await RepositoryCards.findUserCardByHash(userId, hash);
 
     // se exisitir cartão devolver o estado dele
-
+    if(card != null){
+        return { ...data, isValid: true };
+    }
     // se não existir devolver 
 
     return invalidCardResponse;

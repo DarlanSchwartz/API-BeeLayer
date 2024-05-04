@@ -9,8 +9,8 @@ async function registerCard(req: Request, res: Response) {
 }
 
 async function checkCard(req: Request, res: Response) {
-    await CardService.checkCard(req.body as CardCheckDTO);
-    return res.send(httpStatus.OK);
+    const checkCardData = await CardService.checkCard(req.body as CardCheckDTO, res.locals.userId);
+    return res.status(httpStatus.OK).send(checkCardData);
 }
 
 
