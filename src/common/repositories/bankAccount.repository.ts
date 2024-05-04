@@ -1,9 +1,15 @@
 import prisma from '../database/databaseConfig';
-import { LoginDTO, RegisterDTO } from '../protocols/authentication.types';
+import { RegisterDTO } from '../protocols/authentication.types';
 
 export class AuthenticationRepository {
-    async signIn(data: LoginDTO) {
-
+    async signIn(userId: number, token: string) {
+        const result = await prisma.sessions.create({
+            data: {
+                token: token,
+                user_id: userId
+            }
+        });
+        return result;
     }
 
     async signUp(data: RegisterDTO) {
@@ -11,7 +17,7 @@ export class AuthenticationRepository {
             data: {
                 cpf: data.cpf,
                 password: data.password,
-                walleAddress: "32894237948xx1289123j49894h124",
+                walleAddress: "invalid",
             }
         });
 

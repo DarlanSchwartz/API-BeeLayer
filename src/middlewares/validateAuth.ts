@@ -7,7 +7,7 @@ export default async function validateAuth(req: Request, res: Response, next: Ne
     const token = authorization?.replace("Bearer ", "");
     if (!token) throw new CustomError(ErrorType.UNAUTHORIZED, "Token not found");
     const session = await prisma.sessions.findFirst({ where: { token } });
-    if (!session) throw new CustomError(ErrorType.UNAUTHORIZED, "Fund session not found");
+    if (!session) throw new CustomError(ErrorType.UNAUTHORIZED, "Session not found");
     res.locals.userId = session.user_id;
     next();
 }
