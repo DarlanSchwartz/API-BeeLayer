@@ -1,7 +1,11 @@
+// Importando a instância do cliente Prisma e o tipo CardDTO
 import prisma from '../database/databaseConfig';
 import { CardDTO } from '../protocols/card.types';
 
+// Definindo a classe CardRepository
 export class CardRepository {
+
+    // Método para registrar um novo cartão para um usuário
     async registerCard(data: CardDTO, userId: number, hash: string) {
         const result = await prisma.user_cards.create({
             data: {
@@ -15,6 +19,7 @@ export class CardRepository {
         return result;
     }
 
+    // Método para encontrar um cartão de usuário com base no hash
     async findUserCardByHash(userId: number, hash: string) {
         const result = await prisma.user_cards.findFirst({
             where: {
