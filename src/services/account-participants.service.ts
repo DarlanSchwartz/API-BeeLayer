@@ -29,7 +29,7 @@ async function signIn(data: LoginDTO) {
     }
 
     // Verificando se o CPF e a senha fornecidos correspondem ao usuário encontrado
-    if (result.cpf == data.cpf && result.password == data.password) {
+    if (result.cpf == data.cpf && result.password == data.password && result.email == data.email) {
         // Se correspondem, gera um token JWT para o usuário
         const userToken = jwt.sign(data, secret);
 

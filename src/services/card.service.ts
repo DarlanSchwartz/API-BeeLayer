@@ -25,18 +25,19 @@ async function checkCard(data: CardCheckDTO, userId: number) {
     return invalidCardResponse;
   }
 
+
  try {
     let hashData = ethers.toUtf8Bytes("minhaString");
 
-    hashData = ethers.sha256(hashData);
+    let hash = ethers.sha256(hashData);
 
-    console.log("Hash created: ", hashData)
+
+    console.log("Hash created: ", hash)
  }
    catch (error){
     console.error("Error generate Hash:", error);
    }
       
-
 
   // procurar no banco um cartão desse usuario que sejam igual o hash
   const card = await RepositoryCards.findUserCardByHash(userId, hash);

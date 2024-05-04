@@ -10,7 +10,7 @@ datasource db {
 model user_cards {
   id         Int      @id @default(autoincrement())
   type       String   @db.VarChar(10)
-  hash       String   @unique(map: "uk_card_hash")
+  hash       String   @unique
   validUntil DateTime @default(now()) @db.Timestamp(6)
   userId     Int
   users      users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -22,6 +22,7 @@ model users {
   password     String?
   createdAt    DateTime     @default(now()) @db.Timestamp(6)
   walleAddress String
+  email        String       @unique
   sessions     sessions[]
   user_cards   user_cards[]
 }

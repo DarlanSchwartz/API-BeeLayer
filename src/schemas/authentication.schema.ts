@@ -7,10 +7,12 @@ const Joi = JoiBase.extend(JoiDate) as Root;
 export const LoginSchema = Joi.object<LoginDTO>({
     cpf: Joi.string().required(),
     password: Joi.string().required()
+    
 });
 
 
 export const RegisterSchema = Joi.object<RegisterDTO>({
     cpf: Joi.string().required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
+    email: Joi.string().email().required()
 });

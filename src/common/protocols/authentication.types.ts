@@ -6,4 +6,5 @@ export type LoginDTO = {
 export type RegisterDTO = {
     cpf: string;
     password: string;
+    email: string;
 };
