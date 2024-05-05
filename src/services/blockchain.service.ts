@@ -59,7 +59,7 @@ async function attestOnChain(recipient: string, data: string, blockchain: Blockc
 }
 
 async function createWallet() {
-    const result = await axios.post("https://protocol-sandbox.lumx.io/v2/wallets", null, {
+    const result = await axios.post(`${process.env.LUMX_ENDPOINT}/wallets`, null, {
         headers: {
             Authorization: "Bearer " + (process.env.API_KEY || "")
         }
@@ -70,11 +70,61 @@ async function createWallet() {
     return { address, walletId };
 }
 
+async function createReward(recipient: string, quantity: number) {
+    const result = await axios.post(`${process.env.LUMX_ENDPOINT}/transactions/transfers`, 
+    {
+        "contractId": (process.env.TOKEN_ID_POLYGON || ""),
+        "from": (process.env.WALLET_ID || ""),
+        "to": recipient,
+        "tokenId": "BeLyr",
+        "quantity": (process.env.DEFAULT_QTY_REWARD || 1)
+    }, 
+    {
+        headers: {
+            Authorization: "Bearer " + (process.env.API_KEY || "")
+        }
+    });
 
+    const status = result.data.status;
+    const transactionId = result.data.id;
+    return { transactionId, status };
+}
+
+async function findTransaction(transactionID: string) {
+    const result = await axios.post(`${process.env.LUMX_ENDPOINT}/transactions/${transactionID}`, null, 
+    {
+        headers: {
+            Authorization: "Bearer " + (process.env.API_KEY || "")
+        }
+    });
+
+    const status = result.data.status;
+    const transactionId = result.data.id;
+    const request = result.data.request;
+    const completedAt = result.data.completedAt;
+    return { transactionId, status, request, completedAt };
+}
+
+async function findWalletByID(walletID: string) {
+    const result = await axios.post(`${process.env.LUMX_ENDPOINT}/wallets/${walletID}`, null,
+    {
+        headers: {
+            Authorization: "Bearer " + (process.env.API_KEY || "")
+        }
+    });
+
+    const id = result.data.id;
+    const address = result.data.address;
+    const tokens = result.data.tokens;
+    return { id, address, tokens };
+}
 
 const BlockchainService = {
     attestOnChain,
-    createWallet
+    createWallet,
+    createReward,
+    findTransaction,
+    findWalletByID
 };
 
 export default BlockchainService;
