@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 
 // Importando o serviço AuthenticationService
-import AuthenticationService from '../services/account-participants.service';
+import AuthenticationService from '../services/authentication.service';
 
 // Importando os tipos LoginDTO e RegisterDTO dos protocolos de autenticação
 import { LoginDTO, RegisterDTO } from '../common/protocols/authentication.types';
@@ -14,7 +14,7 @@ import { LoginDTO, RegisterDTO } from '../common/protocols/authentication.types'
 async function signIn(req: Request, res: Response) {
     // Chamando o método signIn do AuthenticationService e aguardando o resultado
     const result = await AuthenticationService.signIn(req.body as LoginDTO);
-    
+
     // Retornando uma resposta com o código de status OK (200) e o resultado do login
     return res.status(httpStatus.OK).send(result);
 }
@@ -23,7 +23,7 @@ async function signIn(req: Request, res: Response) {
 async function signUp(req: Request, res: Response) {
     // Chamando o método signUp do AuthenticationService e aguardando a conclusão
     await AuthenticationService.signUp(req.body as RegisterDTO);
-    
+
     // Retornando uma resposta com o código de status CREATED (201)
     // e uma mensagem indicando que o registro foi criado com sucesso
     return res.status(httpStatus.CREATED).send("Criado");
