@@ -27,17 +27,10 @@ async function registerCard(data: CardDTO, userId: number, blockchain: Blockchai
 }
 
 async function checkCard(data: CardCheckDTO, userId: number) {
-  const user = await RepositoryUsers.getUserByCPF(data.userCPF);
-
   const invalidCardResponse = { ...data, isValid: false };
-  if (!user) {
-    return invalidCardResponse;
-  }
-
   const concatenatedData = ethers.toUtf8Bytes(data.cardCPF + data.cardNumber + true + data.userCPF);
   const encryptedHash = ethers.sha256(concatenatedData);
   const card = await RepositoryCards.findUserCardByHash(userId, encryptedHash);
-
 
   if (card != null) {
     return { ...data, isValid: true };
