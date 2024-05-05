@@ -17,13 +17,14 @@ export class AuthenticationRepository {
     }
 
     // Método para registrar um novo usuário
-    async signUp(data: RegisterDTO) {
+    async signUp(data: RegisterDTO, walletAddress: string, walletId: string) {
         const result = await prisma.users.create({
             data: {
                 cpf: data.cpf,
                 password: data.password,
                 email: data.email,
-                walleAddress: "invalid"
+                walletAddress: walletAddress,
+                walletId: walletId
             }
         });
 
@@ -49,5 +50,8 @@ export class AuthenticationRepository {
         });
 
         return result;
+
     }
+
+
 }

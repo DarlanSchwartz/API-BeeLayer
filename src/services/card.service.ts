@@ -18,9 +18,10 @@ async function registerCard(data: CardDTO, userId: number) {
     throw new CustomError(ErrorType.NOT_FOUND, `Usuário não existe ${userId}`);
   }
 
-  await BlockchainService.attestOnChain(user.walleAddress, encryptedHash);
+  await BlockchainService.attestOnChain(user.walletAddress, encryptedHash);
 
   await RepositoryCards.registerCard(userId, encryptedHash);
+
   return "Sucesso!";
 }
 

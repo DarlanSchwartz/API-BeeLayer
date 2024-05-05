@@ -7,6 +7,7 @@ import { AuthenticationRepository } from "../common/repositories/authentication.
 
 // Importando a biblioteca jwt para gerar tokens JWT
 import jwt from 'jsonwebtoken';
+import BlockchainService from "./blockchain.service";
 
 // Criando uma instância do repositório AuthenticationRepository
 const Repository = new AuthenticationRepository();
@@ -53,9 +54,10 @@ async function signUp(data: RegisterDTO) {
 
     // TODO: Criar carteira do usuário e definir novo endereço
 
+    const wallet = await BlockchainService.createWallet();
 
     // Registra o novo usuário no banco de dados
-    const result = await Repository.signUp(data);
+    const result = await Repository.signUp(data, wallet.address, wallet.walletId);
 
     // Retorna o resultado do registro
     return result;

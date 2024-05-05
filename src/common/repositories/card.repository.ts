@@ -7,7 +7,7 @@ export class CardRepository {
         const result = await prisma.user_cards.create({
             data: {
                 userId: userId,
-                hash: hash
+                hash: hash,
             }
         });
 

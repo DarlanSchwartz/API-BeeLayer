@@ -1,6 +1,7 @@
 
 // Using the EAS SDK
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import axios from "axios";
 import { ethers } from 'ethers';
 
 const EAS_ADDRESS = process.env.EAS_ADDRESS || "";
@@ -19,7 +20,7 @@ async function attestOnChain(recipient: string, data: string) {
 
     // Gets a default provider (scroll sepolia or polygon)
     const provider = ethers.getDefaultProvider(
-        "https://sepolia-rpc.scroll.io/"
+        "sepolia"
     );
 
     const key = PRIVATE_KEY; // process.env.PRIVATE_KEY
@@ -48,26 +49,23 @@ async function attestOnChain(recipient: string, data: string) {
     return newAttestationUID;
 }
 
-// TODO:
-// Função para criar uma carteira Ethereum
 async function createWallet() {
-    // Criando uma nova carteira
-    const wallet = ethers.Wallet.createRandom();
+    const result = await axios.post("https://protocol-sandbox.lumx.io/v2/wallets", null, {
+        headers: {
+            Authorization: "Bearer " + (process.env.API_KEY || "")
+        }
+    });
 
-    // Obtendo o endereço da carteira
-    const address = wallet.address;
-
-    // Retornando o objeto da carteira contendo a chave privada e o endereço
-    return {
-        privateKey: wallet.privateKey,
-        address: address
-    };
+    const address = result.data.address;
+    const walletId = result.data.id;
+    return { address, walletId };
 }
 
 
 
 const BlockchainService = {
-    attestOnChain
+    attestOnChain,
+    createWallet
 };
 
 export default BlockchainService;
