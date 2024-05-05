@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { CardCheckDTO, CardDTO } from "../common/protocols/card.types";
 import { AuthenticationRepository } from "../common/repositories/bankAccount.repository";
 import { CardRepository } from "../common/repositories/card.repository";
@@ -6,12 +7,12 @@ const RepositoryCards = new CardRepository();
 const RepositoryUsers = new AuthenticationRepository();
 
 async function registerCard(data: CardDTO, userId: number) {
-  // TODO: generate hash
-  const generatedHash = "sadjhasdasjdh";
+  const hash = ethers.toUtf8Bytes(data.cardCPF + data.cardNumber + data.isValid + data.userCPF);
+  const encryptedHash = ethers.sha256(hash);
+
   const result = await RepositoryCards.registerCard(
-    data,
     userId,
-    generatedHash
+    encryptedHash
   );
   return result;
 }
@@ -24,33 +25,11 @@ async function checkCard(data: CardCheckDTO, userId: number) {
     return invalidCardResponse;
   }
 
-  // tranformar data em hash (Daniel)
-  const hash = "Daniel";
+  const concatenatedData = ethers.toUtf8Bytes(data.cardCPF + data.cardNumber + true + data.userCPF);
+  const encryptedHash = ethers.sha256(concatenatedData);
+  const card = await RepositoryCards.findUserCardByHash(userId, encryptedHash);
 
-  // Criando um objeto do tipo ArrayBuffer para armazenar os bytes da string
-  const buffer = new TextEncoder().encode(hash);
 
-  // Calculando o hash usando o algoritmo SHA-256
-  window.crypto.subtle
-    .digest("SHA-256", buffer)
-    .then((hash) => {
-      // Convertendo o ArrayBuffer para uma string hexadecimal
-      const hashString = Array.from(new Uint8Array(hash))
-        .map((byte) => {
-          return byte.toString(16).padStart(2, "0");
-        })
-        .join("");
-
-      console.log("Hash SHA-256 da string:", hashString);
-    })
-    .catch((error) => {
-      console.error("Erro ao calcular o hash:", error);
-    });
-
-  // procurar no banco um cartão desse usuario que sejam igual o hash
-  const card = await RepositoryCards.findUserCardByHash(userId, hash);
-
-  // se exisitir cartão devolver o estado dele
   if (card != null) {
     return { ...data, isValid: true };
   }
@@ -58,6 +37,8 @@ async function checkCard(data: CardCheckDTO, userId: number) {
 
   return invalidCardResponse;
 }
+
+
 
 const CardService = {
   registerCard,

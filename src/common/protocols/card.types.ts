@@ -1,7 +1,11 @@
 export type CardDTO = {
-    type: string;
-    validUntil: string;
+    cardNumber: string;
+    cardCPF: string;
+    userCPF: string;
+    isValid: boolean;
 };
+
+
 
 export type CardCheckDTO = {
     cardNumber: string;

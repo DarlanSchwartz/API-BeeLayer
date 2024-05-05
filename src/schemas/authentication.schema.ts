@@ -12,5 +12,6 @@ export const LoginSchema = Joi.object<LoginDTO>({
 
 export const RegisterSchema = Joi.object<RegisterDTO>({
     cpf: Joi.string().required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
+    email: Joi.string().email().required()
 });
