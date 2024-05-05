@@ -13,17 +13,17 @@ import CardService from '../services/card.service';
 // Função assíncrona para lidar com o registro de um novo cartão
 async function registerCard(req: Request, res: Response) {
     // Chamando o método registerCard do CardService, passando o corpo da requisição e o ID do usuário extraído do middleware
-    await CardService.registerCard(req.body as CardDTO, res.locals.userId);
-    
+    const result = await CardService.registerCard(req.body as CardDTO, res.locals.userId);
+
     // Retornando uma resposta com o código de status OK (200)
-    return res.send(httpStatus.OK);
+    return res.status(httpStatus.CREATED).send(result);
 }
 
 // Função assíncrona para lidar com a verificação de um cartão
 async function checkCard(req: Request, res: Response) {
     // Chamando o método checkCard do CardService, passando o corpo da requisição e o ID do usuário extraído do middleware
     const checkCardData = await CardService.checkCard(req.body as CardCheckDTO, res.locals.userId);
-    
+
     // Retornando uma resposta com o código de status OK (200) e os dados da verificação do cartão
     return res.status(httpStatus.OK).send(checkCardData);
 }

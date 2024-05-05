@@ -5,6 +5,8 @@ import cors from 'cors';
 import indexRouter from './routes/index.routes';
 import errorHandler from './middlewares/errorHandler';
 import helmet from 'helmet';
+import { config } from 'dotenv';
+config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,8 +16,6 @@ app.use(helmet());
 app.use(indexRouter);
 app.use(errorHandler);
 
-
 app.listen(PORT, async () => {
   console.log(`This is working in port ${PORT}`);
-
 });

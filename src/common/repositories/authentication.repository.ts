@@ -40,4 +40,14 @@ export class AuthenticationRepository {
 
         return result;
     }
+
+    async getUserById(id: number) {
+        const result = await prisma.users.findUnique({
+            where: {
+                id: id
+            }
+        });
+
+        return result;
+    }
 }
