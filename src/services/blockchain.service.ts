@@ -70,7 +70,7 @@ async function createWallet() {
     return { address, walletId };
 }
 
-async function createReward(recipient: string, quantity: number) {
+async function createReward(recipient: string) {
     const result = await axios.post(`${process.env.LUMX_ENDPOINT}/transactions/transfers`, 
     {
         "contractId": (process.env.TOKEN_ID_POLYGON || ""),
