@@ -4,11 +4,12 @@ import { AuthenticationRepository } from "../common/repositories/authentication.
 import { CardRepository } from "../common/repositories/card.repository";
 import BlockchainService from "./blockchain.service";
 import { CustomError, ErrorType } from "../common/protocols/error.types";
+import { Blockchain } from "../common/protocols/default.types";
 
 const RepositoryCards = new CardRepository();
 const RepositoryUsers = new AuthenticationRepository();
 
-async function registerCard(data: CardDTO, userId: number) {
+async function registerCard(data: CardDTO, userId: number, blockchain: Blockchain) {
   const hash = ethers.toUtf8Bytes(data.cardCPF + data.cardNumber + data.isValid + data.userCPF);
   const encryptedHash = ethers.sha256(hash);
 
@@ -18,7 +19,7 @@ async function registerCard(data: CardDTO, userId: number) {
     throw new CustomError(ErrorType.NOT_FOUND, `Usuário não existe ${userId}`);
   }
 
-  await BlockchainService.attestOnChain(user.walletAddress, encryptedHash);
+  await BlockchainService.attestOnChain(user.walletAddress, encryptedHash, blockchain);
 
   await RepositoryCards.registerCard(userId, encryptedHash);
 

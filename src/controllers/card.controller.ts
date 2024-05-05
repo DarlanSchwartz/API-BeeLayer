@@ -9,11 +9,17 @@ import httpStatus from 'http-status';
 
 // Importando o serviço CardService
 import CardService from '../services/card.service';
+import { Blockchain } from '../common/protocols/default.types';
 
 // Função assíncrona para lidar com o registro de um novo cartão
 async function registerCard(req: Request, res: Response) {
     // Chamando o método registerCard do CardService, passando o corpo da requisição e o ID do usuário extraído do middleware
-    const result = await CardService.registerCard(req.body as CardDTO, res.locals.userId);
+    const query = req.query.network; //
+    let blockchainToBeUsed = Blockchain.SCROLL;
+    if (query == Blockchain.SEPOLIA || query == Blockchain.SCROLL) {
+        blockchainToBeUsed = query as Blockchain;
+    }
+    const result = await CardService.registerCard(req.body as CardDTO, res.locals.userId, blockchainToBeUsed);
 
     // Retornando uma resposta com o código de status OK (200)
     return res.status(httpStatus.CREATED).send(result);

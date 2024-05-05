@@ -16,6 +16,8 @@ export default function errorHandler(error: any, req: Request, res: Response, ne
         return res.status(error?.status || 400).send(error?.response?.data);
     }
 
+    console.log(error);
+
     // Caso contrário, trata o erro de acordo com seu tipo
     switch (error.type) {
         case ErrorType.CONFLICT:

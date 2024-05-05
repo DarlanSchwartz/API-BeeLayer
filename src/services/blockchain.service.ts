@@ -3,25 +3,34 @@
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import axios from "axios";
 import { ethers } from 'ethers';
+import { Blockchain } from "../common/protocols/default.types";
 
-const EAS_ADDRESS = process.env.EAS_ADDRESS || "";
-// const SCHEMA_REGISTRY_ADDRESS = process.env.SCHEMA_REGISTRY_ADDRESS || "";
-const SCHEMA_ADDRESS = process.env.SCHEMA_ADDRESS || "";
-// const ATTESTATION_ADDRESS = process.env.ATTESTATION_ADDRESS || "";
 const SCHEMA = process.env.SCHEMA || "";
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
-// const APP_ADDRESS = process.env.APP_ADDRESS || "";
+const SCHEMA_ADDRESS = process.env.SCHEMA_ADDRESS || "";
 
-//
+async function attestOnChain(recipient: string, data: string, blockchain: Blockchain) {
 
-async function attestOnChain(recipient: string, data: string) {
+    let EAS_ADDRESS = "";
+    let RPC_ADDRESS = "";
+
+    switch (blockchain) {
+        case Blockchain.SCROLL:
+            EAS_ADDRESS = process.env.EAS_ADDRESS_SCROLL || "";
+            RPC_ADDRESS = process.env.RPC_ADDRES_SCROLL || "";
+            break;
+        case Blockchain.SEPOLIA:
+            EAS_ADDRESS = process.env.EAS_ADDRESS_SEPOLIA || "";
+            RPC_ADDRESS = process.env.RPC_ADDRES_SEPOLIA || "";
+            break;
+    }
+
+
     // Initialize the sdk with the address of the EAS Schema contract address
     const eas = new EAS(EAS_ADDRESS);
 
     // Gets a default provider (scroll sepolia or polygon)
-    const provider = ethers.getDefaultProvider(
-        "sepolia"
-    );
+    const provider = ethers.getDefaultProvider(RPC_ADDRESS);
 
     const key = PRIVATE_KEY; // process.env.PRIVATE_KEY
     const signer = new ethers.Wallet(key, provider);
