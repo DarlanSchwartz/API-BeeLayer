@@ -4,7 +4,7 @@ import { WalletRepository } from "../common/repositories/wallet.repository";
 
 const RepositoryWallet = new WalletRepository();
 
-async function createWallet(data: WalletDTO, userId: number) {
+async function createWallet(data: WalletDTO) {
   // TODO: generate hash
   const generatedHash = "sadjhasdasjdh";
   const result = await RepositoryWallet.createWallet(

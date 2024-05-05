@@ -7,6 +7,7 @@ const Joi = JoiBase.extend(JoiDate) as Root;
 export const LoginSchema = Joi.object<LoginDTO>({
     cpf: Joi.string().required(),
     password: Joi.string().required()
+    
 });
 
 
