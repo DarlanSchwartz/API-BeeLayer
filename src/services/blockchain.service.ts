@@ -76,7 +76,6 @@ async function createReward(recipient: string, quantity: number) {
         "contractId": (process.env.TOKEN_ID_POLYGON || ""),
         "from": (process.env.WALLET_ID || ""),
         "to": recipient,
-        "tokenId": "BeLyr",
         "quantity": (process.env.DEFAULT_QTY_REWARD || 1)
     }, 
     {
