@@ -8,9 +8,6 @@ import { AuthenticationRepository } from "../common/repositories/authentication.
 // Importando a biblioteca jwt para gerar tokens JWT
 import jwt from 'jsonwebtoken';
 
-// Importando a biblioteca ethers.js
-import { ethers } from 'ethers';
-
 // Criando uma instância do repositório AuthenticationRepository
 const Repository = new AuthenticationRepository();
 
@@ -64,21 +61,6 @@ async function signUp(data: RegisterDTO) {
     return result;
 };
 
-// TODO:
-// Função para criar uma carteira Ethereum
-async function createWallet() {
-    // Criando uma nova carteira
-    const wallet = ethers.Wallet.createRandom();
-
-    // Obtendo o endereço da carteira
-    const address = wallet.address;
-
-    // Retornando o objeto da carteira contendo a chave privada e o endereço
-    return {
-        privateKey: wallet.privateKey,
-        address: address
-    };
-}
 
 // Objeto contendo as funções de autenticação (signIn e signUp)
 const AuthenticationService = {

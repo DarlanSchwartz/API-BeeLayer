@@ -6,7 +6,6 @@ const RepositoryWallet = new WalletRepository();
 
 async function createWallet(data: WalletDTO) {
   // TODO: generate hash
-  const generatedHash = "sadjhasdasjdh";
   const result = await RepositoryWallet.createWallet(
     data,
   );
