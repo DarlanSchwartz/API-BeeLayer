@@ -3,7 +3,7 @@ import { LoginDTO, RegisterDTO } from "../common/protocols/authentication.types"
 import { CustomError, ErrorType } from "../common/protocols/error.types";
 
 // Importando o repositório AuthenticationRepository do banco de dados
-import { AuthenticationRepository } from "../common/repositories/bankAccount.repository";
+import { AuthenticationRepository } from "../common/repositories/authentication.repository";
 
 // Importando a biblioteca jwt para gerar tokens JWT
 import jwt from 'jsonwebtoken';
@@ -29,7 +29,7 @@ async function signIn(data: LoginDTO) {
     }
 
     // Verificando se o CPF e a senha fornecidos correspondem ao usuário encontrado
-    if (result.cpf == data.cpf && result.password == data.password && result.email == data.email) {
+    if (result.cpf == data.cpf && result.password == data.password) {
         // Se correspondem, gera um token JWT para o usuário
         const userToken = jwt.sign(data, secret);
 
@@ -55,7 +55,7 @@ async function signUp(data: RegisterDTO) {
     }
 
     // TODO: Criar carteira do usuário e definir novo endereço
-        
+
 
     // Registra o novo usuário no banco de dados
     const result = await Repository.signUp(data);

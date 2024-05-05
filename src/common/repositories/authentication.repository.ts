@@ -23,8 +23,7 @@ export class AuthenticationRepository {
                 cpf: data.cpf,
                 password: data.password,
                 email: data.email,
-                walleAddress: "invalid",
-                email: data.email
+                walleAddress: "invalid"
             }
         });
 

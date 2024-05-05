@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { CardCheckDTO, CardDTO } from "../common/protocols/card.types";
-import { AuthenticationRepository } from "../common/repositories/bankAccount.repository";
+import { AuthenticationRepository } from "../common/repositories/authentication.repository";
 import { CardRepository } from "../common/repositories/card.repository";
 
 const RepositoryCards = new CardRepository();
