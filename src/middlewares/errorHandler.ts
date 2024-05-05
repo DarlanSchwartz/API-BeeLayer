@@ -31,7 +31,7 @@ export default function errorHandler(error: any, req: Request, res: Response, ne
             return res.status(httpStatus.UNPROCESSABLE_ENTITY).send("Unprocessable entity: " + error.message);
         case ErrorType.BAD_REQUEST:
             // Se for do tipo BAD_REQUEST, retorna uma resposta com o status 400 (requisição inválida) e a mensagem de erro
-            return res.status(httpStatus.BAD_REQUEST).send(error.message);
+            return res.status(httpStatus.BAD_REQUEST).send("Bad request: " + error.message);
         case ErrorType.INTERNAL:
             // Se for do tipo INTERNAL, retorna uma resposta com o status 500 (erro interno do servidor) e uma mensagem genérica de erro
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Sorry, something went wrong 😢");
