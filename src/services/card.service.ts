@@ -23,6 +23,12 @@ async function registerCard(data: CardDTO, userId: number, blockchain: Blockchai
 
   await RepositoryCards.registerCard(userId, encryptedHash);
 
+  try {
+    await BlockchainService.createReward(user.walletAddress);
+  } catch (error) {
+
+  }
+
   return "Sucesso!";
 }
 

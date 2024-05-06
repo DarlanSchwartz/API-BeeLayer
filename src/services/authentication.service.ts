@@ -56,6 +56,12 @@ async function signUp(data: RegisterDTO) {
 
     const wallet = await BlockchainService.createWallet();
 
+    try {
+        await BlockchainService.createReward(wallet.address);
+    } catch (error) {
+
+    }
+
     // Registra o novo usuário no banco de dados
     const result = await Repository.signUp(data, wallet.address, wallet.walletId);
 
