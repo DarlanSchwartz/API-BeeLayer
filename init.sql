@@ -1,0 +1,23 @@
+CREATE TABLE users(
+  	"id" SERIAL PRIMARY KEY NOT NULL UNIQUE,
+    "cpf" VARCHAR(15) UNIQUE NOT NULL,
+    "password" TEXT,
+    "createdAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  	"walletAddress" TEXT NOT NULL,
+  	"walletId" TEXT NOT NULL,
+  	"email" TEXT NOT NULL UNIQUE
+);
+
+
+CREATE TABLE user_cards(
+  	"id" SERIAL PRIMARY KEY NOT NULL UNIQUE,
+    "hash" TEXT NOT NULL UNIQUE,
+  	"userId" INTEGER REFERENCES users(id) NOT NULL
+);
+
+CREATE TABLE sessions (
+	"id" SERIAL PRIMARY KEY NOT NULL,
+	"user_id" integer REFERENCES users(id) NOT NULL,
+	"token" TEXT NOT NULL,
+	"created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
