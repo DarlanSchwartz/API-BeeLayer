@@ -20,7 +20,7 @@ async function registerCard(data: CardDTO, userId: number, blockchain: Blockchai
 
   const cardHashExists = await RepositoryCards.findByHash(encryptedHash);
   if (cardHashExists) {
-    throw new CustomError(ErrorType.CONFLICT, `Card already registered`);
+    throw new CustomError(ErrorType.CONFLICT, `Cartão ja foi registrado`);
   }
 
   await BlockchainService.attestOnChain(user.walletAddress, encryptedHash, blockchain);
