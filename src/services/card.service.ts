@@ -12,11 +12,15 @@ const RepositoryUsers = new AuthenticationRepository();
 async function registerCard(data: CardDTO, userId: number, blockchain: Blockchain) {
   const hash = ethers.toUtf8Bytes(data.cardCPF + data.cardNumber + data.isValid + data.userCPF);
   const encryptedHash = ethers.sha256(hash);
-
   const user = await RepositoryUsers.getUserById(userId);
 
   if (!user) {
     throw new CustomError(ErrorType.NOT_FOUND, `Usuário não existe ${userId}`);
+  }
+
+  const cardHashExists = await RepositoryCards.findByHash(encryptedHash);
+  if (cardHashExists) {
+    throw new CustomError(ErrorType.CONFLICT, `Card already registered`);
   }
 
   await BlockchainService.attestOnChain(user.walletAddress, encryptedHash, blockchain);
@@ -33,6 +37,7 @@ async function registerCard(data: CardDTO, userId: number, blockchain: Blockchai
 }
 
 async function checkCard(data: CardCheckDTO, userId: number) {
+  console.log(data);
   const invalidCardResponse = { ...data, isValid: false };
   const concatenatedData = ethers.toUtf8Bytes(data.cardCPF + data.cardNumber + true + data.userCPF);
   const encryptedHash = ethers.sha256(concatenatedData);

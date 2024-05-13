@@ -26,4 +26,14 @@ export class CardRepository {
         return result;
     }
 
+    async findByHash(hash: string) {
+        const result = await prisma.user_cards.findFirst({
+            where: {
+                hash: hash
+            }
+        });
+
+        return result;
+    }
+
 }
